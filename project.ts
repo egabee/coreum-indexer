@@ -10,6 +10,7 @@ const project: CosmosProject = {
     node: {
       name: '@subql/node-cosmos',
       version: '>=3.0.0',
+      options: { unsafe: true },
     },
     query: {
       name: '@subql/query',
@@ -81,7 +82,7 @@ const project: CosmosProject = {
   dataSources: [
     {
       kind: CosmosDatasourceKind.Runtime,
-      startBlock: 13231900,
+      startBlock: 13557368,
       mapping: {
         file: './dist/index.js',
         handlers: [
