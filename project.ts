@@ -32,6 +32,20 @@ const project: CosmosProject = {
         },
       ],
       [
+        'cosmos.bank.v1beta1.bank',
+        {
+          file: './proto/cosmos/bank/v1beta1/bank.proto',
+          messages: ['Input', 'Output'],
+        },
+      ],
+      [
+        'cosmos.base.v1beta1.coin',
+        {
+          file: './proto/cosmos/base/v1beta1/coin.proto',
+          messages: ['Coin'],
+        },
+      ],
+      [
         'cosmwasm.wasm.v1',
         {
           file: './proto/cosmwasm/wasm/v1/tx.proto',
@@ -54,6 +68,11 @@ const project: CosmosProject = {
         },
       ],
       [
+        'coreum.asset.nft.v1.ClassFeature',
+        { file: './proto/coreum/asset/nft/v1/nft.proto', messages: ['ClassFeature'] },
+      ],
+      ['google.protobuf.Any', { file: './proto/google/protobuf/any.proto', messages: ['Any'] }],
+      [
         'coreum.asset.ft.v1',
         {
           file: './proto/coreum/asset/ft/v1/tx.proto',
@@ -69,6 +88,10 @@ const project: CosmosProject = {
           ],
         },
       ],
+      [
+        'coreum.asset.ft.v1.Token',
+        { file: './proto/coreum/asset/ft/v1/token.proto', messages: ['Token', 'Feature', 'Definition'] },
+      ],
     ]),
 
     /**
@@ -82,7 +105,7 @@ const project: CosmosProject = {
   dataSources: [
     {
       kind: CosmosDatasourceKind.Runtime,
-      startBlock: 13557368,
+      startBlock: 13557560,
       mapping: {
         file: './dist/index.js',
         handlers: [
