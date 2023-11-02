@@ -118,7 +118,7 @@ const project: CosmosProject = {
         file: './dist/index.js',
         handlers: [
           // -----------------------------------------------------------------------
-          // =========== handlers for bank module ================
+          // =========== handlers for cosmos builtin modules ================
           // -----------------------------------------------------------------------
           {
             handler: 'handleMsgSend',
@@ -133,6 +133,22 @@ const project: CosmosProject = {
             kind: CosmosHandlerKind.Message,
             filter: {
               type: '/cosmos.bank.v1beta1.MsgMultiSend',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgWithdrawDelegatorReward',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgDelegate',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/cosmos.staking.v1beta1.MsgDelegate',
               includeFailedTx: true,
             },
           },
