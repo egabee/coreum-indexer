@@ -31,6 +31,20 @@ const project: CosmosProject = {
           messages: ['MsgSend', 'MsgMultiSend'],
         },
       ],
+       [
+        'cosmos.authz.v1beta1',
+        {
+          file: './proto/cosmos/authz/v1beta1/tx.proto',
+          messages: ['MsgGrant'],
+        },
+      ],
+      [
+        'cosmos.authz.v1beta1.Grant',
+        {
+          file: './proto/cosmos/authz/v1beta1/authz.proto',
+          messages: ['Grant'],
+        },
+      ],
       [
         'cosmos.bank.v1beta1.bank',
         {
