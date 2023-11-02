@@ -24,12 +24,17 @@ const project: CosmosProject = {
     /* The genesis hash of the network (hash of block 0) */
     chainId: 'coreum-testnet-1',
     chaintypes: new Map([
+      
       [
         'cosmos.authz.v1beta1',
         {
           file: './proto/cosmos/authz/v1beta1/tx.proto',
           messages: ['MsgGrant'],
         },
+      ],
+      [
+        'ibc.core.client.v1.MsgUpdateClient',
+        { file: './proto/ibc/core/client/v1/tx.proto', messages: ['MsgUpdateClient'] },
       ],
       [
         'cosmos.authz.v1beta1.Grant',
@@ -308,6 +313,17 @@ const project: CosmosProject = {
             kind: CosmosHandlerKind.Message,
             filter: {
               type: '/cosmwasm.wasm.v1.MsgExecuteContract',
+              includeFailedTx: true,
+            },
+          },
+          // -----------------------------------------------------------------------
+          // =========== handlers for IBC  ================
+          // -----------------------------------------------------------------------
+          {
+            handler: 'handleMsgUpdateClient',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/ibc.core.client.v1.MsgUpdateClient',
               includeFailedTx: true,
             },
           },

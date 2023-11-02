@@ -1,91 +1,85 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // Auto-generated , DO NOT EDIT
-import { CosmosMessage } from '@subql/types-cosmos'
+import {CosmosMessage} from "@subql/types-cosmos";
 
-import { MsgGrant } from './proto-interfaces/cosmos/authz/v1beta1/tx'
+import {MsgGrant} from "./proto-interfaces/cosmos/authz/v1beta1/tx";
 
-import { Grant } from './proto-interfaces/cosmos/authz/v1beta1/authz'
+import {MsgUpdateClient} from "./proto-interfaces/ibc/core/client/v1/tx";
 
-import { MsgSend, MsgMultiSend } from './proto-interfaces/cosmos/bank/v1beta1/tx'
+import {Grant} from "./proto-interfaces/cosmos/authz/v1beta1/authz";
 
-import { Input, Output } from './proto-interfaces/cosmos/bank/v1beta1/bank'
+import {MsgSend,MsgMultiSend} from "./proto-interfaces/cosmos/bank/v1beta1/tx";
 
-import { Coin } from './proto-interfaces/cosmos/base/v1beta1/coin'
+import {Input,Output} from "./proto-interfaces/cosmos/bank/v1beta1/bank";
 
-import { MsgWithdrawDelegatorReward } from './proto-interfaces/cosmos/distribution/v1beta1/tx'
+import {Coin} from "./proto-interfaces/cosmos/base/v1beta1/coin";
 
-import { MsgDelegate } from './proto-interfaces/cosmos/staking/v1beta1/tx'
+import {MsgWithdrawDelegatorReward} from "./proto-interfaces/cosmos/distribution/v1beta1/tx";
 
-import { MsgInstantiateContract, MsgExecuteContract } from './proto-interfaces/cosmwasm/wasm/v1/tx'
+import {MsgDelegate} from "./proto-interfaces/cosmos/staking/v1beta1/tx";
 
-import {
-  MsgIssueClass,
-  MsgMint as MsgMintNFT,
+import {MsgInstantiateContract,MsgExecuteContract} from "./proto-interfaces/cosmwasm/wasm/v1/tx";
+
+import {MsgIssueClass,MsgMint as MsgMintNFT,
   MsgBurn as MsgBurnNFT,
   MsgFreeze as MsgFreezeNFT,
   MsgUnfreeze as MsgUnfreezeNFT,
-  MsgAddToWhitelist,
-  MsgRemoveFromWhitelist,
-} from './proto-interfaces/coreum/asset/nft/v1/tx'
+  MsgAddToWhitelist,MsgRemoveFromWhitelist} from "./proto-interfaces/coreum/asset/nft/v1/tx";
 
-import { ClassFeature } from './proto-interfaces/coreum/asset/nft/v1/nft'
 
-import { Any } from './proto-interfaces/google/protobuf/any'
+import {ClassFeature} from "./proto-interfaces/coreum/asset/nft/v1/nft";
 
-import {
-  MsgIssue,
-  MsgMint,
-  MsgBurn,
-  MsgFreeze,
-  MsgUnfreeze,
-  MsgGloballyFreeze,
-  MsgGloballyUnfreeze,
-  MsgSetWhitelistedLimit,
-} from './proto-interfaces/coreum/asset/ft/v1/tx'
+import {Any} from "./proto-interfaces/google/protobuf/any";
 
-import { Token, Feature, Definition } from './proto-interfaces/coreum/asset/ft/v1/token'
+import {MsgIssue,MsgMint,MsgBurn,MsgFreeze,MsgUnfreeze,MsgGloballyFreeze,MsgGloballyUnfreeze,MsgSetWhitelistedLimit} from "./proto-interfaces/coreum/asset/ft/v1/tx";
 
-export type MsgGrantMessage = CosmosMessage<MsgGrant>
+import {Token,Feature,Definition} from "./proto-interfaces/coreum/asset/ft/v1/token";
 
-export type GrantMessage = CosmosMessage<Grant>
 
-export type MsgSendMessage = CosmosMessage<MsgSend>
-export type MsgMultiSendMessage = CosmosMessage<MsgMultiSend>
+export type MsgGrantMessage = CosmosMessage<MsgGrant>;
 
-export type InputMessage = CosmosMessage<Input>
-export type OutputMessage = CosmosMessage<Output>
+export type MsgUpdateClientMessage = CosmosMessage<MsgUpdateClient>;
 
-export type CoinMessage = CosmosMessage<Coin>
+export type GrantMessage = CosmosMessage<Grant>;
 
-export type MsgWithdrawDelegatorRewardMessage = CosmosMessage<MsgWithdrawDelegatorReward>
+export type MsgSendMessage = CosmosMessage<MsgSend>;
+export type MsgMultiSendMessage = CosmosMessage<MsgMultiSend>;
 
-export type MsgDelegateMessage = CosmosMessage<MsgDelegate>
+export type InputMessage = CosmosMessage<Input>;
+export type OutputMessage = CosmosMessage<Output>;
 
-export type MsgInstantiateContractMessage = CosmosMessage<MsgInstantiateContract>
-export type MsgExecuteContractMessage = CosmosMessage<MsgExecuteContract>
+export type CoinMessage = CosmosMessage<Coin>;
 
-export type MsgIssueClassMessage = CosmosMessage<MsgIssueClass>
+export type MsgWithdrawDelegatorRewardMessage = CosmosMessage<MsgWithdrawDelegatorReward>;
+
+export type MsgDelegateMessage = CosmosMessage<MsgDelegate>;
+
+export type MsgInstantiateContractMessage = CosmosMessage<MsgInstantiateContract>;
+export type MsgExecuteContractMessage = CosmosMessage<MsgExecuteContract>;
+
+export type MsgIssueClassMessage = CosmosMessage<MsgIssueClass>;
+
 export type MsgMintMessageNFT = CosmosMessage<MsgMintNFT>
 export type MsgBurnMessageNFT = CosmosMessage<MsgBurnNFT>
 export type MsgFreezeMessageNFT = CosmosMessage<MsgFreezeNFT>
 export type MsgUnfreezeMessageNFT = CosmosMessage<MsgUnfreezeNFT>
-export type MsgAddToWhitelistMessage = CosmosMessage<MsgAddToWhitelist>
-export type MsgRemoveFromWhitelistMessage = CosmosMessage<MsgRemoveFromWhitelist>
+export type MsgAddToWhitelistMessage = CosmosMessage<MsgAddToWhitelist>;
+export type MsgRemoveFromWhitelistMessage = CosmosMessage<MsgRemoveFromWhitelist>;
 
-export type ClassFeatureMessage = CosmosMessage<ClassFeature>
+export type ClassFeatureMessage = CosmosMessage<ClassFeature>;
 
-export type AnyMessage = CosmosMessage<Any>
+export type AnyMessage = CosmosMessage<Any>;
 
-export type MsgIssueMessage = CosmosMessage<MsgIssue>
-export type MsgMintMessage = CosmosMessage<MsgMint>
-export type MsgBurnMessage = CosmosMessage<MsgBurn>
-export type MsgFreezeMessage = CosmosMessage<MsgFreeze>
-export type MsgUnfreezeMessage = CosmosMessage<MsgUnfreeze>
-export type MsgGloballyFreezeMessage = CosmosMessage<MsgGloballyFreeze>
-export type MsgGloballyUnfreezeMessage = CosmosMessage<MsgGloballyUnfreeze>
-export type MsgSetWhitelistedLimitMessage = CosmosMessage<MsgSetWhitelistedLimit>
+export type MsgIssueMessage = CosmosMessage<MsgIssue>;
+export type MsgMintMessage = CosmosMessage<MsgMint>;
+export type MsgBurnMessage = CosmosMessage<MsgBurn>;
+export type MsgFreezeMessage = CosmosMessage<MsgFreeze>;
+export type MsgUnfreezeMessage = CosmosMessage<MsgUnfreeze>;
+export type MsgGloballyFreezeMessage = CosmosMessage<MsgGloballyFreeze>;
+export type MsgGloballyUnfreezeMessage = CosmosMessage<MsgGloballyUnfreeze>;
+export type MsgSetWhitelistedLimitMessage = CosmosMessage<MsgSetWhitelistedLimit>;
 
-export type TokenMessage = CosmosMessage<Token>
-export type FeatureMessage = CosmosMessage<Feature>
-export type DefinitionMessage = CosmosMessage<Definition>
+export type TokenMessage = CosmosMessage<Token>;
+export type FeatureMessage = CosmosMessage<Feature>;
+export type DefinitionMessage = CosmosMessage<Definition>;
