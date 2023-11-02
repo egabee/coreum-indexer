@@ -46,6 +46,14 @@ const project: CosmosProject = {
         },
       ],
       [
+        'cosmos.distribution.v1beta1',
+        {
+          file: './proto/cosmos/distribution/v1beta1/tx.proto',
+          messages: ['MsgWithdrawDelegatorReward'],
+        },
+      ],
+      ['cosmos.staking.v1beta1', { file: './proto/cosmos/staking/v1beta1/tx.proto', messages: ['MsgDelegate'] }],
+      [
         'cosmwasm.wasm.v1',
         {
           file: './proto/cosmwasm/wasm/v1/tx.proto',

@@ -9,14 +9,18 @@ import { Input, Output } from './proto-interfaces/cosmos/bank/v1beta1/bank'
 
 import { Coin } from './proto-interfaces/cosmos/base/v1beta1/coin'
 
+import { MsgWithdrawDelegatorReward } from './proto-interfaces/cosmos/distribution/v1beta1/tx'
+
+import { MsgDelegate } from './proto-interfaces/cosmos/staking/v1beta1/tx'
+
 import { MsgInstantiateContract, MsgExecuteContract } from './proto-interfaces/cosmwasm/wasm/v1/tx'
 
 import {
   MsgIssueClass,
-  MsgMint,
-  MsgBurn,
-  MsgFreeze,
-  MsgUnfreeze,
+  MsgMint as MsgMintNFT,
+  MsgBurn as MsgBurnNFT,
+  MsgFreeze as MsgFreezeNFT,
+  MsgUnfreeze as MsgUnfreezeNFT,
   MsgAddToWhitelist,
   MsgRemoveFromWhitelist,
 } from './proto-interfaces/coreum/asset/nft/v1/tx'
@@ -27,10 +31,10 @@ import { Any } from './proto-interfaces/google/protobuf/any'
 
 import {
   MsgIssue,
-  MsgMint as MsgMintNFT,
-  MsgBurn as MsgBurnNFT,
-  MsgFreeze as MsgFreezeNFT,
-  MsgUnfreeze as MsgUnfreezeNFT,
+  MsgMint,
+  MsgBurn,
+  MsgFreeze,
+  MsgUnfreeze,
   MsgGloballyFreeze,
   MsgGloballyUnfreeze,
   MsgSetWhitelistedLimit,
@@ -45,6 +49,10 @@ export type InputMessage = CosmosMessage<Input>
 export type OutputMessage = CosmosMessage<Output>
 
 export type CoinMessage = CosmosMessage<Coin>
+
+export type MsgWithdrawDelegatorRewardMessage = CosmosMessage<MsgWithdrawDelegatorReward>
+
+export type MsgDelegateMessage = CosmosMessage<MsgDelegate>
 
 export type MsgInstantiateContractMessage = CosmosMessage<MsgInstantiateContract>
 export type MsgExecuteContractMessage = CosmosMessage<MsgExecuteContract>
