@@ -25,6 +25,20 @@ const project: CosmosProject = {
     chainId: 'coreum-testnet-1',
     chaintypes: new Map([
       [
+        'cosmos.authz.v1beta1',
+        {
+          file: './proto/cosmos/authz/v1beta1/tx.proto',
+          messages: ['MsgGrant'],
+        },
+      ],
+      [
+        'cosmos.authz.v1beta1.Grant',
+        {
+          file: './proto/cosmos/authz/v1beta1/authz.proto',
+          messages: ['Grant'],
+        },
+      ],
+      [
         'cosmos.bank.v1beta1',
         {
           file: './proto/cosmos/bank/v1beta1/tx.proto',
@@ -149,6 +163,14 @@ const project: CosmosProject = {
             kind: CosmosHandlerKind.Message,
             filter: {
               type: '/cosmos.staking.v1beta1.MsgDelegate',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgGrant',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/cosmos.authz.v1beta1.MsgGrant',
               includeFailedTx: true,
             },
           },

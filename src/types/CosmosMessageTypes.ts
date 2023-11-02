@@ -3,6 +3,10 @@
 // Auto-generated , DO NOT EDIT
 import { CosmosMessage } from '@subql/types-cosmos'
 
+import { MsgGrant } from './proto-interfaces/cosmos/authz/v1beta1/tx'
+
+import { Grant } from './proto-interfaces/cosmos/authz/v1beta1/authz'
+
 import { MsgSend, MsgMultiSend } from './proto-interfaces/cosmos/bank/v1beta1/tx'
 
 import { Input, Output } from './proto-interfaces/cosmos/bank/v1beta1/bank'
@@ -41,6 +45,10 @@ import {
 } from './proto-interfaces/coreum/asset/ft/v1/tx'
 
 import { Token, Feature, Definition } from './proto-interfaces/coreum/asset/ft/v1/token'
+
+export type MsgGrantMessage = CosmosMessage<MsgGrant>
+
+export type GrantMessage = CosmosMessage<Grant>
 
 export type MsgSendMessage = CosmosMessage<MsgSend>
 export type MsgMultiSendMessage = CosmosMessage<MsgMultiSend>
