@@ -25,20 +25,6 @@ const project: CosmosProject = {
     chainId: 'coreum-testnet-1',
     chaintypes: new Map([
       [
-        'cosmos.authz.v1beta1',
-        {
-          file: './proto/cosmos/authz/v1beta1/tx.proto',
-          messages: ['MsgGrant'],
-        },
-      ],
-      [
-        'cosmos.authz.v1beta1.Grant',
-        {
-          file: './proto/cosmos/authz/v1beta1/authz.proto',
-          messages: ['Grant'],
-        },
-      ],
-      [
         'cosmos.bank.v1beta1',
         {
           file: './proto/cosmos/bank/v1beta1/tx.proto',
@@ -94,6 +80,8 @@ const project: CosmosProject = {
         { file: './proto/coreum/asset/nft/v1/nft.proto', messages: ['ClassFeature'] },
       ],
       ['google.protobuf.Any', { file: './proto/google/protobuf/any.proto', messages: ['Any'] }],
+      ['cosmos.ics23.v1.proofs', { file: './proto/cosmos/ics23/v1/proofs.proto', messages: ['ProofSpec'] }],
+
       [
         'coreum.asset.ft.v1',
         {
@@ -113,6 +101,10 @@ const project: CosmosProject = {
       [
         'coreum.asset.ft.v1.Token',
         { file: './proto/coreum/asset/ft/v1/token.proto', messages: ['Token', 'Feature', 'Definition'] },
+      ],
+      [
+        'ibc.core.client.v1.MsgUpdateClient',
+        { file: './proto/ibc/core/client/v1/tx.proto', messages: ['MsgUpdateClient'] },
       ],
     ]),
 
@@ -166,14 +158,19 @@ const project: CosmosProject = {
               includeFailedTx: true,
             },
           },
+          // -----------------------------------------------------------------------
+          // =========== handlers for IBC  ================
+          // -----------------------------------------------------------------------
           {
-            handler: 'handleMsgGrant',
+            handler: 'handleMsgUpdateClient',
             kind: CosmosHandlerKind.Message,
             filter: {
-              type: '/cosmos.authz.v1beta1.MsgGrant',
+              type: '/ibc.core.client.v1.MsgUpdateClient',
               includeFailedTx: true,
             },
           },
+
+
           // -----------------------------------------------------------------------
           // =========== handlers for NFT module ================
           // -----------------------------------------------------------------------
@@ -185,6 +182,7 @@ const project: CosmosProject = {
               includeFailedTx: true,
             },
           },
+          
           {
             handler: 'handleMsgMintNFT',
             kind: CosmosHandlerKind.Message,
