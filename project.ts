@@ -24,6 +24,24 @@ const project: CosmosProject = {
     /* The genesis hash of the network (hash of block 0) */
     chainId: 'coreum-testnet-1',
     chaintypes: new Map([
+      [
+        'ibc.core.client.v1',
+        { file: './proto/ibc/core/client/v1/tx.proto', messages: ['MsgUpdateClient','MsgCreateClient'] },
+      ],
+      [
+        'ibc.applications.transfer.v1',
+        {
+          file: './proto/ibc/applications/transfer/v1/tx.proto',
+          messages: ['MsgTransfer'],
+        },
+      ],
+      [
+        'ibc.core.channel.v1',
+        {
+          file: './proto/ibc/core/channel/v1/tx.proto',
+          messages: ['MsgRecvPacket'],
+        },
+      ],
       
       [
         'cosmos.authz.v1beta1',
@@ -32,10 +50,7 @@ const project: CosmosProject = {
           messages: ['MsgGrant'],
         },
       ],
-      [
-        'ibc.core.client.v1.MsgUpdateClient',
-        { file: './proto/ibc/core/client/v1/tx.proto', messages: ['MsgUpdateClient'] },
-      ],
+     
       [
         'cosmos.authz.v1beta1.Grant',
         {
@@ -132,7 +147,7 @@ const project: CosmosProject = {
   dataSources: [
     {
       kind: CosmosDatasourceKind.Runtime,
-      startBlock: 13557560,
+      startBlock: 11229100,
       mapping: {
         file: './dist/index.js',
         handlers: [
@@ -324,6 +339,30 @@ const project: CosmosProject = {
             kind: CosmosHandlerKind.Message,
             filter: {
               type: '/ibc.core.client.v1.MsgUpdateClient',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgCreateClient',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/ibc.core.client.v1.MsgCreateClient',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgTransfer',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/ibc.applications.transfer.v1.MsgTransfer',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgReceivePacket ',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/ibc.core.channel.v1.MsgRecvPacket',
               includeFailedTx: true,
             },
           },
