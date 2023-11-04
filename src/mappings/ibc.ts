@@ -24,6 +24,8 @@ export async function handleMsgTransfer(msg: MsgTransferMessage):Promise<void> {
 export async function handleMsgRecvPacket(msg:MsgRecvPacketMessage) {
   const transaction=createTransaction('MsgRecvPacketMessage',msg)
   logger.info('----// oo \\--**********-------ibc is recived init----------------------------')
+  await sendBatchOfMessagesToKafka([{ messages: [transaction], topic: TOPIC_MESSAGE }])
+
 }
 
 
