@@ -27,7 +27,9 @@ const project: CosmosProject = {
       [
         'ibc.core.client.v1',
         { file: './proto/ibc/core/client/v1/tx.proto', messages: ['MsgUpdateClient','MsgCreateClient'] },
+
       ],
+
       [
         'ibc.applications.transfer.v1',
         {
@@ -39,7 +41,7 @@ const project: CosmosProject = {
         'ibc.core.channel.v1',
         {
           file: './proto/ibc/core/channel/v1/tx.proto',
-          messages: ['MsgRecvPacket'],
+          messages: ['MsgRecvPacket','MsgAcknowledgement'],
         },
       ],
       
@@ -147,7 +149,7 @@ const project: CosmosProject = {
   dataSources: [
     {
       kind: CosmosDatasourceKind.Runtime,
-      startBlock: 11229100,
+      startBlock: 13737191      ,
       mapping: {
         file: './dist/index.js',
         handlers: [
@@ -363,6 +365,14 @@ const project: CosmosProject = {
             kind: CosmosHandlerKind.Message,
             filter: {
               type: '/ibc.core.channel.v1.MsgRecvPacket',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgAcknowledgement ',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/ibc.core.channel.v1.MsgAcknowledgement',
               includeFailedTx: true,
             },
           },

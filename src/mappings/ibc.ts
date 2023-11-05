@@ -1,6 +1,6 @@
 import { createTransaction } from './helper'
  import { TOPIC_MESSAGE } from '../common/constants'
- import { MsgUpdateClientMessage ,MsgCreateClientMessage,MsgTransferMessage,MsgRecvPacketMessage} from '../types/CosmosMessageTypes'
+ import { MsgUpdateClientMessage ,MsgCreateClientMessage,MsgTransferMessage,MsgRecvPacketMessage,MsgAcknowledgementMessage} from '../types/CosmosMessageTypes'
  import { sendBatchOfMessagesToKafka } from '../common/kafka-producer'
 ​
 ​
@@ -23,5 +23,8 @@ export async function handleMsgRecvPacket(msg:MsgRecvPacketMessage) {
 
 }
 
-
+export async function handleMsgAcknowledgement(msg:MsgAcknowledgementMessage):Promise<void> {
+  const transaction = createTransaction('MsgAcknowledgementMessage',msg)
+  await sendBatchOfMessagesToKafka([{ messages: [transaction], topic: TOPIC_MESSAGE }])
+}
  
