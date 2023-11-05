@@ -9,7 +9,7 @@ import { createTransaction } from './helper'
    await sendBatchOfMessagesToKafka([{ messages: [transaction], topic: TOPIC_MESSAGE }])
  }
  export async function handleMsgCreateClient(msg: MsgCreateClientMessage):Promise<void> {
-  const transaction = createTransaction('MsgUpdateClientMessage', msg)
+  const transaction = createTransaction('MsgCreateClientMessage', msg)
 
   await sendBatchOfMessagesToKafka([{ messages: [transaction], topic: TOPIC_MESSAGE }])
 }
@@ -20,7 +20,6 @@ export async function handleMsgTransfer(msg: MsgTransferMessage):Promise<void> {
 export async function handleMsgRecvPacket(msg:MsgRecvPacketMessage) {
   const transaction=createTransaction('MsgRecvPacketMessage',msg)
   await sendBatchOfMessagesToKafka([{ messages: [transaction], topic: TOPIC_MESSAGE }])
-
 }
 
 export async function handleMsgAcknowledgement(msg:MsgAcknowledgementMessage):Promise<void> {
@@ -28,7 +27,3 @@ export async function handleMsgAcknowledgement(msg:MsgAcknowledgementMessage):Pr
   await sendBatchOfMessagesToKafka([{ messages: [transaction], topic: TOPIC_MESSAGE }])
 }
  
-export async function handleMsgVote(msg:MsgVoteMessage):Promise<void> {
-  const transaction = createTransaction('MsgVoteMessage',msg)
-  await sendBatchOfMessagesToKafka([{ messages: [transaction], topic: TOPIC_MESSAGE }])
-}
