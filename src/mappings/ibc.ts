@@ -1,6 +1,6 @@
 import { createTransaction } from './helper'
  import { TOPIC_MESSAGE } from '../common/constants'
- import { MsgUpdateClientMessage ,MsgCreateClientMessage,MsgTransferMessage,MsgRecvPacketMessage,MsgAcknowledgementMessage} from '../types/CosmosMessageTypes'
+ import { MsgUpdateClientMessage ,MsgCreateClientMessage,MsgTransferMessage,MsgRecvPacketMessage,MsgAcknowledgementMessage,MsgVoteMessage} from '../types/CosmosMessageTypes'
  import { sendBatchOfMessagesToKafka } from '../common/kafka-producer'
 ​
 ​
@@ -28,3 +28,7 @@ export async function handleMsgAcknowledgement(msg:MsgAcknowledgementMessage):Pr
   await sendBatchOfMessagesToKafka([{ messages: [transaction], topic: TOPIC_MESSAGE }])
 }
  
+export async function handleMsgVote(msg:MsgVoteMessage):Promise<void> {
+  const transaction = createTransaction('MsgVoteMessage',msg)
+  await sendBatchOfMessagesToKafka([{ messages: [transaction], topic: TOPIC_MESSAGE }])
+}

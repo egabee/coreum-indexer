@@ -25,6 +25,13 @@ const project: CosmosProject = {
     chainId: 'coreum-testnet-1',
     chaintypes: new Map([
       [
+        'cosmos.gov.v1beta1',
+        {
+          file: './proto/cosmos/gov/v1beta1/tx.proto',
+          messages: ['MsgVote'],
+        },
+      ],
+      [
         'ibc.core.client.v1',
         { file: './proto/ibc/core/client/v1/tx.proto', messages: ['MsgUpdateClient','MsgCreateClient'] },
 
@@ -373,6 +380,17 @@ const project: CosmosProject = {
             kind: CosmosHandlerKind.Message,
             filter: {
               type: '/ibc.core.channel.v1.MsgAcknowledgement',
+              includeFailedTx: true,
+            },
+          },
+          // -----------------------------------------------------------------------
+          // =========== handlers for GOV (vote)  ================
+          // -----------------------------------------------------------------------
+          {
+            handler: 'handleMsgVote ',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/cosmos.gov.v1beta1.MsgVote',
               includeFailedTx: true,
             },
           },

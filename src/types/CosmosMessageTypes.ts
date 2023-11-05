@@ -3,6 +3,8 @@
 // Auto-generated , DO NOT EDIT
 import {CosmosMessage} from "@subql/types-cosmos";
 
+import {MsgVote} from "./proto-interfaces/cosmos/gov/v1beta1/tx";
+
 import {MsgUpdateClient,MsgCreateClient} from "./proto-interfaces/ibc/core/client/v1/tx";
 
 import {MsgTransfer} from "./proto-interfaces/ibc/applications/transfer/v1/tx";
@@ -25,6 +27,7 @@ import {MsgDelegate} from "./proto-interfaces/cosmos/staking/v1beta1/tx";
 
 import {MsgInstantiateContract,MsgExecuteContract} from "./proto-interfaces/cosmwasm/wasm/v1/tx";
 
+
 import {MsgIssueClass,
     MsgMint as MsgMintNFT,
     MsgBurn as MsgBurnNFT,
@@ -39,6 +42,8 @@ import {MsgIssue,MsgMint,MsgBurn,MsgFreeze,MsgUnfreeze,MsgGloballyFreeze,MsgGlob
 
 import {Token,Feature,Definition} from "./proto-interfaces/coreum/asset/ft/v1/token";
 
+
+export type MsgVoteMessage = CosmosMessage<MsgVote>;
 
 export type MsgUpdateClientMessage = CosmosMessage<MsgUpdateClient>;
 export type MsgCreateClientMessage = CosmosMessage<MsgCreateClient>;
@@ -73,7 +78,6 @@ export type MsgMintMessageNFT = CosmosMessage<MsgMintNFT>
 export type MsgBurnMessageNFT = CosmosMessage<MsgBurnNFT>
 export type MsgFreezeMessageNFT = CosmosMessage<MsgFreezeNFT>
 export type MsgUnfreezeMessageNFT = CosmosMessage<MsgUnfreezeNFT>
-
 export type MsgAddToWhitelistMessage = CosmosMessage<MsgAddToWhitelist>;
 export type MsgRemoveFromWhitelistMessage = CosmosMessage<MsgRemoveFromWhitelist>;
 
