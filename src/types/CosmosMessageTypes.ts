@@ -3,11 +3,13 @@
 // Auto-generated , DO NOT EDIT
 import {CosmosMessage} from "@subql/types-cosmos";
 
+import {MsgVote} from "./proto-interfaces/cosmos/gov/v1beta1/tx";
+
 import {MsgUpdateClient,MsgCreateClient} from "./proto-interfaces/ibc/core/client/v1/tx";
 
 import {MsgTransfer} from "./proto-interfaces/ibc/applications/transfer/v1/tx";
 
-import {MsgRecvPacket} from "./proto-interfaces/ibc/core/channel/v1/tx";
+import {MsgRecvPacket,MsgAcknowledgement} from "./proto-interfaces/ibc/core/channel/v1/tx";
 
 import {MsgGrant} from "./proto-interfaces/cosmos/authz/v1beta1/tx";
 
@@ -25,11 +27,12 @@ import {MsgDelegate} from "./proto-interfaces/cosmos/staking/v1beta1/tx";
 
 import {MsgInstantiateContract,MsgExecuteContract} from "./proto-interfaces/cosmwasm/wasm/v1/tx";
 
+
 import {MsgIssueClass,
-        MsgMint as MsgMintNFT,
-        MsgBurn as MsgBurnNFT,
-        MsgFreeze as MsgFreezeNFT,
-        MsgUnfreeze as MsgUnfreezeNFT,MsgAddToWhitelist,MsgRemoveFromWhitelist} from "./proto-interfaces/coreum/asset/nft/v1/tx";
+    MsgMint as MsgMintNFT,
+    MsgBurn as MsgBurnNFT,
+    MsgFreeze as MsgFreezeNFT,
+    MsgUnfreeze as MsgUnfreezeNFT,MsgAddToWhitelist,MsgRemoveFromWhitelist} from "./proto-interfaces/coreum/asset/nft/v1/tx";
 
 import {ClassFeature} from "./proto-interfaces/coreum/asset/nft/v1/nft";
 
@@ -40,12 +43,15 @@ import {MsgIssue,MsgMint,MsgBurn,MsgFreeze,MsgUnfreeze,MsgGloballyFreeze,MsgGlob
 import {Token,Feature,Definition} from "./proto-interfaces/coreum/asset/ft/v1/token";
 
 
+export type MsgVoteMessage = CosmosMessage<MsgVote>;
+
 export type MsgUpdateClientMessage = CosmosMessage<MsgUpdateClient>;
 export type MsgCreateClientMessage = CosmosMessage<MsgCreateClient>;
 
 export type MsgTransferMessage = CosmosMessage<MsgTransfer>;
 
 export type MsgRecvPacketMessage = CosmosMessage<MsgRecvPacket>;
+export type MsgAcknowledgementMessage = CosmosMessage<MsgAcknowledgement>;
 
 export type MsgGrantMessage = CosmosMessage<MsgGrant>;
 
@@ -67,6 +73,7 @@ export type MsgInstantiateContractMessage = CosmosMessage<MsgInstantiateContract
 export type MsgExecuteContractMessage = CosmosMessage<MsgExecuteContract>;
 
 export type MsgIssueClassMessage = CosmosMessage<MsgIssueClass>;
+
 export type MsgMintMessageNFT = CosmosMessage<MsgMintNFT>
 export type MsgBurnMessageNFT = CosmosMessage<MsgBurnNFT>
 export type MsgFreezeMessageNFT = CosmosMessage<MsgFreezeNFT>
