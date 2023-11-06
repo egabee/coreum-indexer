@@ -5,7 +5,7 @@ import { createTransaction } from './helper'
 ​
 
 export async function handleMsgVote(msg:MsgVoteMessage):Promise<void> {
-    const transaction = createTransaction('MsgVoteMessage',msg)
+    const transaction = createTransaction('MsgVote',msg)
     await sendBatchOfMessagesToKafka([{ messages: [transaction], topic: TOPIC_MESSAGE }])
   }
   
