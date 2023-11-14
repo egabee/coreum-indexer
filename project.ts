@@ -1,29 +1,84 @@
-import { CosmosDatasourceKind, CosmosHandlerKind, CosmosProject } from '@subql/types-cosmos'
+import {
+  CosmosDatasourceKind,
+  CosmosHandlerKind,
+  CosmosProject,
+} from "@subql/types-cosmos";
 
 // Can expand the Datasource processor types via the genreic param
 const project: CosmosProject = {
-  specVersion: '1.0.0',
-  version: '0.0.1',
-  name: 'coreum',
-  description: 'Coreum blockchain indexer',
+  specVersion: "1.0.0",
+  version: "0.0.1",
+  name: "Egabee-starter",
+  description:
+    "This project can be use as a starting point for developing your Cosmos juno based SubQuery project",
   runner: {
     node: {
-      name: '@subql/node-cosmos',
-      version: '>=3.0.0',
-      options: { unsafe: true },
+      name: "@subql/node-cosmos",
+      version: ">=3.0.0",
     },
     query: {
-      name: '@subql/query',
-      version: '*',
+      name: "@subql/query",
+      version: "*",
     },
   },
   schema: {
-    file: './schema.graphql',
+    file: "./schema.graphql",
   },
   network: {
     /* The genesis hash of the network (hash of block 0) */
-    chainId: 'coreum-testnet-1',
+     /**
+     * These endpoint(s) should be non-pruned archive nodes
+     * Public nodes may be rate limited, which can affect indexing speed
+     * When developing your project we suggest getting a private API key
+     * We suggest providing an array of endpoints for increased speed and reliability
+     */
+     endpoint: ['https://coreum-rpc.publicnode.com:443'
+     // 'https://full-node.testnet-1.coreum.dev:26657'
+   ],
+
+    // --------------- Chain id ------------------ [ ]
+    chainId: "coreum-mainnet-1",
+    
     chaintypes: new Map([
+      [
+        'coreum.asset.nft.v1',
+        {
+          file: './proto/coreum/asset/nft/v1/tx.proto',
+          messages: [
+            'MsgIssueClass',
+            'MsgMint',
+            'MsgBurn',
+            'MsgFreeze',
+            'MsgUnfreeze',
+            'MsgAddToWhitelist',
+            'MsgRemoveFromWhitelist',
+          ],
+        },
+      ],
+      [
+        'coreum.asset.nft.v1.ClassFeature',
+        { file: './proto/coreum/asset/nft/v1/nft.proto', messages: ['ClassFeature'] },
+      ],
+      [
+        'coreum.asset.ft.v1',
+        {
+          file: './proto/coreum/asset/ft/v1/tx.proto',
+          messages: [
+            'MsgIssue',
+            'MsgMint',
+            'MsgBurn',
+            'MsgFreeze',
+            'MsgUnfreeze',
+            'MsgGloballyFreeze',
+            'MsgGloballyUnfreeze',
+            'MsgSetWhitelistedLimit',
+          ],
+        },
+      ],
+      [
+        'coreum.asset.ft.v1.Token',
+        { file: './proto/coreum/asset/ft/v1/token.proto', messages: ['Token', 'Feature', 'Definition'] },
+      ],
       [
         'cosmos.gov.v1beta1',
         {
@@ -32,10 +87,24 @@ const project: CosmosProject = {
         },
       ],
       [
+        'cosmos.gov.v1beta1.option',
+        {
+          file: './proto/cosmos/gov/v1beta1/gov.proto',
+          messages: ['VoteOption'],
+        },
+      ],
+      
+
+
+      [
         'ibc.core.client.v1',
         { file: './proto/ibc/core/client/v1/tx.proto', messages: ['MsgUpdateClient','MsgCreateClient'] },
 
       ],
+   
+
+
+
 
       [
         'ibc.applications.transfer.v1',
@@ -45,12 +114,35 @@ const project: CosmosProject = {
         },
       ],
       [
+        'ibc.core.client.v1.Height',
+        {
+          file: './proto/ibc/core/client/v1/client.proto',
+          messages: ['Height'],
+        },
+      ],
+      
+      // MsgChannelOpenInit ==>/proto/ibc/core/channel/v1/tx.proto
+      // MsgChannelOpenAck
+      // MsgChannelOpenConfirm
+ 
+
+
+      [
         'ibc.core.channel.v1',
         {
           file: './proto/ibc/core/channel/v1/tx.proto',
-          messages: ['MsgRecvPacket','MsgAcknowledgement'],
+          messages: ['MsgRecvPacket','MsgAcknowledgement','MsgChannelOpenInit','MsgChannelOpenAck','MsgChannelOpenConfirm'],
         },
       ],
+      [
+        'ibc.core.channel.v1.Packet',
+        {
+          file: './proto/ibc/core/channel/v1/channel.proto',
+          messages: ['Packet'],
+        },
+      ],
+
+      
       
       [
         'cosmos.authz.v1beta1',
@@ -103,106 +195,22 @@ const project: CosmosProject = {
           messages: ['MsgInstantiateContract', 'MsgExecuteContract'],
         },
       ],
-      [
-        'coreum.asset.nft.v1',
-        {
-          file: './proto/coreum/asset/nft/v1/tx.proto',
-          messages: [
-            'MsgIssueClass',
-            'MsgMint',
-            'MsgBurn',
-            'MsgFreeze',
-            'MsgUnfreeze',
-            'MsgAddToWhitelist',
-            'MsgRemoveFromWhitelist',
-          ],
-        },
-      ],
-      [
-        'coreum.asset.nft.v1.ClassFeature',
-        { file: './proto/coreum/asset/nft/v1/nft.proto', messages: ['ClassFeature'] },
-      ],
+    
       ['google.protobuf.Any', { file: './proto/google/protobuf/any.proto', messages: ['Any'] }],
-      [
-        'coreum.asset.ft.v1',
-        {
-          file: './proto/coreum/asset/ft/v1/tx.proto',
-          messages: [
-            'MsgIssue',
-            'MsgMint',
-            'MsgBurn',
-            'MsgFreeze',
-            'MsgUnfreeze',
-            'MsgGloballyFreeze',
-            'MsgGloballyUnfreeze',
-            'MsgSetWhitelistedLimit',
-          ],
-        },
-      ],
-      [
-        'coreum.asset.ft.v1.Token',
-        { file: './proto/coreum/asset/ft/v1/token.proto', messages: ['Token', 'Feature', 'Definition'] },
-      ],
+      
+      
     ]),
 
-    /**
-     * These endpoint(s) should be non-pruned archive nodes
-     * Public nodes may be rate limited, which can affect indexing speed
-     * When developing your project we suggest getting a private API key
-     * We suggest providing an array of endpoints for increased speed and reliability
-     */
-    endpoint: ['https://full-node.testnet-1.coreum.dev:26657'],
+   
   },
+
   dataSources: [
     {
       kind: CosmosDatasourceKind.Runtime,
-      startBlock: 13737191      ,
+      startBlock: 6996001      ,
       mapping: {
         file: './dist/index.js',
         handlers: [
-          // -----------------------------------------------------------------------
-          // =========== handlers for cosmos builtin modules ================
-          // -----------------------------------------------------------------------
-          {
-            handler: 'handleMsgSend',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmos.bank.v1beta1.MsgSend',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgMultiSend',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmos.bank.v1beta1.MsgMultiSend',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgWithdrawDelegatorReward',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgDelegate',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmos.staking.v1beta1.MsgDelegate',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgGrant',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmos.authz.v1beta1.MsgGrant',
-              includeFailedTx: true,
-            },
-          },
           // -----------------------------------------------------------------------
           // =========== handlers for NFT module ================
           // -----------------------------------------------------------------------
@@ -262,6 +270,7 @@ const project: CosmosProject = {
               includeFailedTx: true,
             },
           },
+
           // -----------------------------------------------------------------------
           // =========== handlers for FT module ================
           // -----------------------------------------------------------------------
@@ -322,6 +331,50 @@ const project: CosmosProject = {
             },
           },
           // -----------------------------------------------------------------------
+          // =========== handlers for cosmos builtin modules ================
+          // -----------------------------------------------------------------------
+          {
+            handler: 'handleMsgSend',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/cosmos.bank.v1beta1.MsgSend',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgMultiSend',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/cosmos.bank.v1beta1.MsgMultiSend',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgWithdrawDelegatorReward',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgDelegate',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/cosmos.staking.v1beta1.MsgDelegate',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgGrant',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/cosmos.authz.v1beta1.MsgGrant',
+              includeFailedTx: true,
+            },
+          },
+          
+          // -----------------------------------------------------------------------
           // =========== handlers for COSMWASM module ================
           // -----------------------------------------------------------------------
           {
@@ -368,7 +421,7 @@ const project: CosmosProject = {
             },
           },
           {
-            handler: 'handleMsgReceivePacket ',
+            handler: 'handleMsgReceivePacket',
             kind: CosmosHandlerKind.Message,
             filter: {
               type: '/ibc.core.channel.v1.MsgRecvPacket',
@@ -376,18 +429,47 @@ const project: CosmosProject = {
             },
           },
           {
-            handler: 'handleMsgAcknowledgement ',
+            handler: 'handleMsgAcknowledgement',
             kind: CosmosHandlerKind.Message,
             filter: {
               type: '/ibc.core.channel.v1.MsgAcknowledgement',
               includeFailedTx: true,
             },
           },
+              // MsgChannelOpenInit ==>/proto/ibc/core/channel/v1/tx.proto
+          // MsgChannelOpenAck
+          // MsgChannelOpenConfirm
+          {
+            handler: 'handleMsgChannelOpenInit',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/ibc.core.channel.v1.MsgChannelOpenInit',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgChannelOpenAck',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/ibc.core.channel.v1.MsgChannelOpenAck',
+              includeFailedTx: true,
+            },
+          },
+          {
+            handler: 'handleMsgChannelOpenConfirm',
+            kind: CosmosHandlerKind.Message,
+            filter: {
+              type: '/ibc.core.channel.v1.MsgMsgChannelOpenConfirm',
+              includeFailedTx: true,
+            },
+          },
+     
+
           // -----------------------------------------------------------------------
           // =========== handlers for GOV (vote)  ================
           // -----------------------------------------------------------------------
           {
-            handler: 'handleMsgVote ',
+            handler: 'handleMsgVote',
             kind: CosmosHandlerKind.Message,
             filter: {
               type: '/cosmos.gov.v1beta1.MsgVote',
