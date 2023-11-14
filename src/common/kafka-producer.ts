@@ -19,7 +19,7 @@ async function disconnectProducer(): Promise<void> {
   await producer.disconnect()
 }
 
-connectProducer()
+// connectProducer()
 
 interface TopicMessages {
   topic: string
@@ -32,23 +32,22 @@ interface TopicMessages {
  * @param topic - The topic to send the messages to
  */
 export async function sendBatchOfMessagesToKafka(topicMessages: TopicMessages[]): Promise<void> {
-  if (!producerConnected) {
-    await connectProducer()
-  }
+  // if (!producerConnected) {
+  //   await connectProducer()
+  // }
 
   try {
     for (const { topic, messages } of topicMessages) {
-      const messageResults = await producer.send({
-        messages: messages.map((message) => ({
-          value: toJson({ ...message, chainId: process.env.CHAIN_ID }),
-        })),
-        topic,
-      })
-      const failedMessages = messageResults.filter((messageResult) => messageResult.errorCode !== 0)
-
-      if (failedMessages.length) {
-        console.error(`Error pushing ${failedMessages.length} messages to Kafka`)
-      }
+      // const messageResults = await producer.send({
+      //   messages: messages.map((message) => ({
+      //     value: toJson({ ...message, chainId: process.env.CHAIN_ID }),
+      //   })),
+      //   topic,
+      // })
+      // const failedMessages = messageResults.filter((messageResult) => messageResult.errorCode !== 0)
+      // if (failedMessages.length) {
+      //   console.error(`Error pushing ${failedMessages.length} messages to Kafka`)
+      // }
     }
   } catch (error) {
     console.error(`Error pushing batch of messages to Kafka: ${JSON.stringify(error)}`)

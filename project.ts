@@ -22,7 +22,7 @@ const project: CosmosProject = {
   },
   network: {
     /* The genesis hash of the network (hash of block 0) */
-    chainId: 'coreum-testnet-1',
+    chainId: 'coreum-mainnet-1',
     chaintypes: new Map([
       [
         'cosmos.gov.v1beta1',
@@ -33,8 +33,7 @@ const project: CosmosProject = {
       ],
       [
         'ibc.core.client.v1',
-        { file: './proto/ibc/core/client/v1/tx.proto', messages: ['MsgUpdateClient','MsgCreateClient'] },
-
+        { file: './proto/ibc/core/client/v1/tx.proto', messages: ['MsgUpdateClient', 'MsgCreateClient'] },
       ],
 
       [
@@ -48,10 +47,10 @@ const project: CosmosProject = {
         'ibc.core.channel.v1',
         {
           file: './proto/ibc/core/channel/v1/tx.proto',
-          messages: ['MsgRecvPacket','MsgAcknowledgement'],
+          messages: ['MsgRecvPacket', 'MsgAcknowledgement'],
         },
       ],
-      
+
       [
         'cosmos.authz.v1beta1',
         {
@@ -59,7 +58,7 @@ const project: CosmosProject = {
           messages: ['MsgGrant'],
         },
       ],
-     
+
       [
         'cosmos.authz.v1beta1.Grant',
         {
@@ -123,6 +122,7 @@ const project: CosmosProject = {
         { file: './proto/coreum/asset/nft/v1/nft.proto', messages: ['ClassFeature'] },
       ],
       ['google.protobuf.Any', { file: './proto/google/protobuf/any.proto', messages: ['Any'] }],
+      ['google.protobuf.Timestamp', { file: './proto/google/protobuf/timestamp.proto', messages: ['Timestamp'] }],
       [
         'coreum.asset.ft.v1',
         {
@@ -151,15 +151,20 @@ const project: CosmosProject = {
      * When developing your project we suggest getting a private API key
      * We suggest providing an array of endpoints for increased speed and reliability
      */
-    endpoint: ['https://full-node.testnet-1.coreum.dev:26657'],
+    endpoint: ['https://full-node.mainnet-1.coreum.dev:26657'],
   },
   dataSources: [
     {
       kind: CosmosDatasourceKind.Runtime,
-      startBlock: 13737191      ,
+      startBlock: 11707433,
+      endBlock: 11707435,
       mapping: {
         file: './dist/index.js',
         handlers: [
+          {
+            handler: 'handleTx',
+            kind: CosmosHandlerKind.Transaction,
+          },
           // -----------------------------------------------------------------------
           // =========== handlers for cosmos builtin modules ================
           // -----------------------------------------------------------------------

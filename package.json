@@ -31,9 +31,11 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@cosmjs/proto-signing": "^0.31.3",
     "@cosmjs/tendermint-rpc": "^0.31.3",
     "@subql/types-cosmos": "latest",
     "@types/node": "^17.0.21",
+    "cosmjs-types": "^0.7.2",
     "dotenv": "^16.3.1",
     "is-base64": "^1.1.0",
     "kafkajs": "^2.2.4",
