@@ -32,7 +32,7 @@ const project: CosmosProject = {
      * When developing your project we suggest getting a private API key
      * We suggest providing an array of endpoints for increased speed and reliability
      */
-     endpoint: ['https://coreum-rpc.publicnode.com:443'
+     endpoint: ['https://full-node-californium.mainnet-1.coreum.dev:26657'
      // 'https://full-node.testnet-1.coreum.dev:26657'
    ],
 
@@ -40,6 +40,75 @@ const project: CosmosProject = {
     chainId: "coreum-mainnet-1",
     
     chaintypes: new Map([
+      [
+        'cosmos.p2p',
+        { 
+          // /proto/cosmos/tendermint/p2p/types.proto
+          file: './proto/cosmos/tendermint/p2p/types.proto',
+          messages: ['DefaultNodeInfo','DefaultNodeInfoOther'], 
+        },
+      ],
+      [
+        'cosmos.abci',
+        { 
+          // proto/cosmos/tendermint/abci/types.proto
+          file: './proto/cosmos/tendermint/abci/types.proto',
+          messages: ['RequestFinalizeBlock'], 
+        },
+      ],
+      // [
+      //   'cosmos.validator',
+      //   { 
+      //     // proto/cosmos/tendermint/types/validator.proto
+      //     file: './proto/cosmos/tendermint/types/validator.proto',
+      //     messages: ['BlockIDFlag'], 
+      //   },
+      // ],
+      [
+        'cosmos.tx.v1beta1',
+        {
+          file: './proto/cosmos/tx/v1beta1/tx.proto',
+          messages: ['Tx','TxRaw','TxBody'], //,'SignDoc','SignDocDirectAux
+        },
+      ],
+      // /ibc.lightclients.tendermint.v1.Header
+      [
+        '/ibc.lightclients.tendermint.v1.Header',
+        {
+          file: './proto/ibc/lightclients/tendermint/v1/tendermint.proto',
+          messages: ['Header'],
+        },
+      ],
+      [
+        '/cosmos.tendermint.types.SignedHeader',
+        {
+          file: './proto/cosmos/tendermint/types/types.proto',
+          messages: ['SignedHeader'],
+        },
+      ],
+      [
+        '/cosmos.tendermint.types.ValidatorSet',
+        {
+          file: './proto/cosmos/tendermint/types/validator.proto',
+          messages: ['ValidatorSet','Validator'],
+        },
+      ],
+      [
+        '/cosmos.tendermint.crypto.PublicKey',
+        {
+          file: './proto/cosmos/tendermint/crypto/keys.proto',
+          messages: ['PublicKey'],
+        },
+      ],
+      // tendermint.crypto.PublicKey
+
+      [
+        '/cosmos.tendermint.version.Consensus',
+        {
+          file: './proto/cosmos/tendermint/version/types.proto',
+          messages: ['Consensus'],
+        },
+      ],
       [
         'coreum.asset.nft.v1',
         {
@@ -102,10 +171,6 @@ const project: CosmosProject = {
 
       ],
    
-
-
-
-
       [
         'ibc.applications.transfer.v1',
         {
@@ -187,7 +252,7 @@ const project: CosmosProject = {
           messages: ['MsgWithdrawDelegatorReward'],
         },
       ],
-      ['cosmos.staking.v1beta1', { file: './proto/cosmos/staking/v1beta1/tx.proto', messages: ['MsgDelegate'] }],
+      ['cosmos.staking.v1beta1', { file: './proto/cosmos/staking/v1beta1/tx.proto', messages: ['MsgDelegate','MsgBeginRedelegate'] }],
       [
         'cosmwasm.wasm.v1',
         {
@@ -197,7 +262,7 @@ const project: CosmosProject = {
       ],
     
       ['google.protobuf.Any', { file: './proto/google/protobuf/any.proto', messages: ['Any'] }],
-      
+      ['google.protobuf.Timestamp', { file: './proto/google/protobuf/timestamp.proto', messages: ['Timestamp'] }],
       
     ]),
 
@@ -207,275 +272,280 @@ const project: CosmosProject = {
   dataSources: [
     {
       kind: CosmosDatasourceKind.Runtime,
-      startBlock: 6996001      ,
+      startBlock: 11714113   ,
       mapping: {
         file: './dist/index.js',
         handlers: [
+          {
+            handler: 'handleTx',
+            kind: CosmosHandlerKind.Transaction,
+            
+          },
           // -----------------------------------------------------------------------
           // =========== handlers for NFT module ================
           // -----------------------------------------------------------------------
-          {
-            handler: 'handleMsgIssueClass',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.nft.v1.MsgIssueClass',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgMintNFT',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.nft.v1.MsgMint',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgBurnNFT',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.nft.v1.MsgBurn',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgFreezeNFT',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.nft.v1.MsgFreeze',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgUnFreezeNFT',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.nft.v1.MsgUnfreeze',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgAddToWhitelistNFT',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.nft.v1.MsgAddToWhitelist',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgRemoveFromWhitelistNFT',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.nft.v1.MsgRemoveFromWhitelist',
-              includeFailedTx: true,
-            },
-          },
+          // {
+          //   handler: 'handleMsgIssueClass',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.nft.v1.MsgIssueClass',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgMintNFT',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.nft.v1.MsgMint',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgBurnNFT',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.nft.v1.MsgBurn',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgFreezeNFT',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.nft.v1.MsgFreeze',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgUnFreezeNFT',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.nft.v1.MsgUnfreeze',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgAddToWhitelistNFT',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.nft.v1.MsgAddToWhitelist',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgRemoveFromWhitelistNFT',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.nft.v1.MsgRemoveFromWhitelist',
+          //     includeFailedTx: true,
+          //   },
+          // },
 
-          // -----------------------------------------------------------------------
-          // =========== handlers for FT module ================
-          // -----------------------------------------------------------------------
-          {
-            handler: 'handleMsgMint',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.ft.v1.MsgMint',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgBurn',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.ft.v1.MsgBurn',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgFreeze',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.ft.v1.MsgFreeze',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgUnfreeze',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.ft.v1.MsgUnfreeze',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgGloballyFreeze',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.ft.v1.MsgGloballyFreeze',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgGloballyUnfreeze',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.ft.v1.MsgGloballyUnfreeze',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgSetWhitelistedLimit',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/coreum.asset.ft.v1.MsgSetWhitelistedLimit',
-              includeFailedTx: true,
-            },
-          },
-          // -----------------------------------------------------------------------
-          // =========== handlers for cosmos builtin modules ================
-          // -----------------------------------------------------------------------
-          {
-            handler: 'handleMsgSend',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmos.bank.v1beta1.MsgSend',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgMultiSend',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmos.bank.v1beta1.MsgMultiSend',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgWithdrawDelegatorReward',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgDelegate',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmos.staking.v1beta1.MsgDelegate',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgGrant',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmos.authz.v1beta1.MsgGrant',
-              includeFailedTx: true,
-            },
-          },
+          // // -----------------------------------------------------------------------
+          // // =========== handlers for FT module ================
+          // // -----------------------------------------------------------------------
+          // {
+          //   handler: 'handleMsgMint',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.ft.v1.MsgMint',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgBurn',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.ft.v1.MsgBurn',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgFreeze',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.ft.v1.MsgFreeze',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgUnfreeze',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.ft.v1.MsgUnfreeze',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgGloballyFreeze',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.ft.v1.MsgGloballyFreeze',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgGloballyUnfreeze',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.ft.v1.MsgGloballyUnfreeze',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgSetWhitelistedLimit',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/coreum.asset.ft.v1.MsgSetWhitelistedLimit',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // // -----------------------------------------------------------------------
+          // // =========== handlers for cosmos builtin modules ================
+          // // -----------------------------------------------------------------------
+          // {
+          //   handler: 'handleMsgSend',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/cosmos.bank.v1beta1.MsgSend',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgMultiSend',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/cosmos.bank.v1beta1.MsgMultiSend',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgWithdrawDelegatorReward',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // // {
+          // //   handler: 'handleMsgDelegate',
+          // //   kind: CosmosHandlerKind.Message,
+          // //   filter: {
+          // //     type: '/cosmos.staking.v1beta1.MsgDelegate',
+          // //     includeFailedTx: true,
+          // //   },
+          // // },
+          // {
+          //   handler: 'handleMsgGrant',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/cosmos.authz.v1beta1.MsgGrant',
+          //     includeFailedTx: true,
+          //   },
+          // },
           
-          // -----------------------------------------------------------------------
-          // =========== handlers for COSMWASM module ================
-          // -----------------------------------------------------------------------
-          {
-            handler: 'handleMsgInstantiateContract',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmwasm.wasm.v1.MsgInstantiateContract',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgExecuteContract',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmwasm.wasm.v1.MsgExecuteContract',
-              includeFailedTx: true,
-            },
-          },
-          // -----------------------------------------------------------------------
-          // =========== handlers for IBC  ================
-          // -----------------------------------------------------------------------
-          {
-            handler: 'handleMsgUpdateClient',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/ibc.core.client.v1.MsgUpdateClient',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgCreateClient',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/ibc.core.client.v1.MsgCreateClient',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgTransfer',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/ibc.applications.transfer.v1.MsgTransfer',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgReceivePacket',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/ibc.core.channel.v1.MsgRecvPacket',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgAcknowledgement',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/ibc.core.channel.v1.MsgAcknowledgement',
-              includeFailedTx: true,
-            },
-          },
-              // MsgChannelOpenInit ==>/proto/ibc/core/channel/v1/tx.proto
-          // MsgChannelOpenAck
-          // MsgChannelOpenConfirm
-          {
-            handler: 'handleMsgChannelOpenInit',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/ibc.core.channel.v1.MsgChannelOpenInit',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgChannelOpenAck',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/ibc.core.channel.v1.MsgChannelOpenAck',
-              includeFailedTx: true,
-            },
-          },
-          {
-            handler: 'handleMsgChannelOpenConfirm',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/ibc.core.channel.v1.MsgMsgChannelOpenConfirm',
-              includeFailedTx: true,
-            },
-          },
+          // // -----------------------------------------------------------------------
+          // // =========== handlers for COSMWASM module ================
+          // // -----------------------------------------------------------------------
+          // {
+          //   handler: 'handleMsgInstantiateContract',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/cosmwasm.wasm.v1.MsgInstantiateContract',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgExecuteContract',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/cosmwasm.wasm.v1.MsgExecuteContract',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // // -----------------------------------------------------------------------
+          // // =========== handlers for IBC  ================
+          // // -----------------------------------------------------------------------
+          // {
+          //   handler: 'handleMsgUpdateClient',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/ibc.core.client.v1.MsgUpdateClient',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgCreateClient',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/ibc.core.client.v1.MsgCreateClient',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgTransfer',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/ibc.applications.transfer.v1.MsgTransfer',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgReceivePacket',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/ibc.core.channel.v1.MsgRecvPacket',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgAcknowledgement',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/ibc.core.channel.v1.MsgAcknowledgement',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          //     // MsgChannelOpenInit ==>/proto/ibc/core/channel/v1/tx.proto
+          // // MsgChannelOpenAck
+          // // MsgChannelOpenConfirm
+          // {
+          //   handler: 'handleMsgChannelOpenInit',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/ibc.core.channel.v1.MsgChannelOpenInit',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgChannelOpenAck',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/ibc.core.channel.v1.MsgChannelOpenAck',
+          //     includeFailedTx: true,
+          //   },
+          // },
+          // {
+          //   handler: 'handleMsgChannelOpenConfirm',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/ibc.core.channel.v1.MsgMsgChannelOpenConfirm',
+          //     includeFailedTx: true,
+          //   },
+          // },
      
 
-          // -----------------------------------------------------------------------
-          // =========== handlers for GOV (vote)  ================
-          // -----------------------------------------------------------------------
-          {
-            handler: 'handleMsgVote',
-            kind: CosmosHandlerKind.Message,
-            filter: {
-              type: '/cosmos.gov.v1beta1.MsgVote',
-              includeFailedTx: true,
-            },
-          },
+          // // -----------------------------------------------------------------------
+          // // =========== handlers for GOV (vote)  ================
+          // // -----------------------------------------------------------------------
+          // {
+          //   handler: 'handleMsgVote',
+          //   kind: CosmosHandlerKind.Message,
+          //   filter: {
+          //     type: '/cosmos.gov.v1beta1.MsgVote',
+          //     includeFailedTx: true,
+          //   },
+          // },
         ],
       },
     },
